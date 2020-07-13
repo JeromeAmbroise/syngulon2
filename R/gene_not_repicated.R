@@ -32,6 +32,10 @@ gene_not_duplicated = function(species,geneDir,outDir,collicin)
     fasta.list <- c(fasta.list,fasta.list.newspecies)
   }
 
+
+  fileinfo <- file.info(fasta.list)
+  fasta.list <- fasta.list[fileinfo$size>0]
+
   genename <- unique(basename(fasta.list))
   for(i in 1:length(genename))
   {

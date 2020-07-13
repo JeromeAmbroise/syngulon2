@@ -12,8 +12,7 @@
 #' @import GenomicRanges IRanges Biostrings
 #'
 #' @export
-
-screenBlast <- function (reference, querry,min.pc.ident,min.pc.length,dir.out)
+screenBlast2 <- function (reference, querry,min.pc.ident,min.pc.length,dir.out)
 {
   library(Biostrings)
   library(GenomicRanges)
@@ -23,31 +22,43 @@ screenBlast <- function (reference, querry,min.pc.ident,min.pc.length,dir.out)
   myarg <- paste0("-in ", reference, " -out temp/dbblast/db -dbtype nucl")
   system2(command = "makeblastdb", args = myarg, stdout = F)
 
-  Sys.time()
   myarg <- paste0("-query ", querry, " -db temp/dbblast/db -out temp/blast.txt -num_threads 8 -num_alignments 1000 -outfmt \"7 sacc bitscore pident length slen \"")
   system2(command = "blastn", args = myarg)
   blast <- try(read.table("temp/blast.txt", comment.char = "#"), silent = T)
 
   if (class(blast) == "data.frame")
   {
+    sequences <- readDNAStringSet(reference)
+    genes <- unlist(lapply(strsplit(names(sequences),split=':'),function(x) x[[2]]))
+    gene.levels <- levels(factor(genes))
+
+
     colnames(blast) <- c("subj.access", "bitscore", "pident", "align.length", "subj.len")
+    genes <- unlist(lapply(strsplit(blast$subj.access,split=':'),function(x) x[[2]]))
+    blast <- data.frame(genes,blast)
     blast$pc.length <- round(100*(blast$align.length/blast$subj.len))
     blast$pc.length[blast$pc.length>100] <- 100
-    blast <- blast[(blast$pident>min.pc.ident)&(blast$pc.length>min.pc.length),]
 
-
-    if(dim(blast)[1]>0)
+    ngenes <- length(gene.levels)
+    toreturn <- character(length =ngenes )
+    for(i in 1:ngenes)
     {
-      toreturn1 <- paste(unique(unlist(lapply(strsplit(blast$subj.access,split=':'),function(x) x[[1]]))),collapse='|')
-
-      blast <- blast[sort.list(blast$bitscore,decreasing=T),]
-      blast <- blast[which.max(blast$pc.length),]
-      toreturn2  <- paste0('pc.id = ',round(blast$pident),' ; pc.cov = ',blast$pc.length)
-      toreturn <- paste(toreturn2,toreturn1,sep=';')
+      blast.selected <- blast[blast$gene==gene.levels[i],]
+      blast.selected <- blast.selected[(blast.selected$pident>min.pc.ident)&(blast.selected$pc.length>min.pc.length),]
+      if(dim(blast.selected)[1]>0)
+      {
+        toreturn1 <- unique(unlist(lapply(strsplit(blast.selected$subj.access,split=':'),function(x) x[[1]])))
+        toreturn1 <- paste(toreturn1[1:min(3,length(toreturn1))],collapse='|')
+        blast.selected <- blast.selected[sort.list(blast.selected$bitscore,decreasing=T),]
+        blast.selected <- blast.selected[which.max(blast.selected$pc.length),]
+        toreturn2  <- paste0('pc.id = ',round(blast.selected$pident),' ; pc.cov = ',blast.selected$pc.length)
+        toreturn[i] <- paste(toreturn2,toreturn1,sep=';')
+      }
+      else{toreturn[i] <- ''}
     }
-    else{toreturn <- ''}
+
   }
-  else{toreturn <- ''}
+  else{toreturn <- character(length =ngenes )}
   unlink('temp',recursive = T)
   return(toreturn)
 }
