@@ -31,14 +31,17 @@ screenBlast <- function (reference, querry,min.pc.ident,dir.out)
   {
     colnames(blast) <- c("subj.access", "bitscore", "pident", "align.length", "subj.len")
     blast <- blast[blast$pident>min.pc.ident,]
-
-    toreturn1 <- paste(unique(unlist(lapply(strsplit(blast$subj.access,split=':'),function(x) x[[1]]))),collapse='|')
-
-    blast$pc.length <- round(100*(blast$align.length/blast$subj.len))
-    blast <- blast[which.max(blast$pc.length),]
-    toreturn2  <- paste0('pc.id = ',round(blast$pident),' ; pc.cov = ',blast$pc.length)
-
-    toreturn <- paste(toreturn2,toreturn1,sep=';')
+    if(dim(blast)[1]>0)
+    {
+      toreturn1 <- paste(unique(unlist(lapply(strsplit(blast$subj.access,split=':'),function(x) x[[1]]))),collapse='|')
+      blast$pc.length <- round(100*(blast$align.length/blast$subj.len))
+      blast$pc.length[blast$pc.length>100] <- 100
+      blast <- blast[sort.list(blast$bitscore,decreasing=T),]
+      blast <- blast[which.max(blast$pc.length),]
+      toreturn2  <- paste0('pc.id = ',round(blast$pident),' ; pc.cov = ',blast$pc.length)
+      toreturn <- paste(toreturn2,toreturn1,sep=';')
+    }
+    else{toreturn <- ''}
   }
   else{toreturn <- ''}
   unlink('temp',recursive = T)
