@@ -33,7 +33,7 @@ download.accession <- function(species,bacteria.table,outDir)
       Replicon <- unlist(lapply(strsplit(Replicon,split=':'), function(x) x[[2]]))
       Replicon <- unlist(lapply(strsplit(Replicon,split='/'), function(x) x[[1]]))
       Replicon <- gsub(Replicon,pattern = ' ',replacement = '')
-      Replicon <- paste(Replicon,collapse = " : ")
+      Replicon <- paste(Replicon,collapse = " - ")
       Replicon.vec <- c(Replicon.vec,Replicon)
     }
     accession <- data.frame(accession=Replicon.vec)

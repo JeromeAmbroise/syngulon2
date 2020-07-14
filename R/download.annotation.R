@@ -31,7 +31,7 @@ download.annotation <- function(species,maxOrganism=20,indextostart,accessionDir
     for(j in 1:min(c(maxOrganism,N.accession)))
     {
       current.accession <- accession[j]
-      current.accession <- strsplit(current.accession,split=':')[[1]]
+      current.accession <- strsplit(current.accession,split='-')[[1]]
       current.accession <- gsub(current.accession,pattern = ' ',replacement = '')
       N.chromosomes <- length(current.accession)
       full.annotation <- NULL
@@ -51,7 +51,7 @@ download.annotation <- function(species,maxOrganism=20,indextostart,accessionDir
       }
       if(class(full.annotation)=='data.frame')
       {
-        write.csv(full.annotation,paste0(outDir,species[i],'/',paste(current.accession[1:min(5,N.chromosomes)],collapse = ':'),'.csv'),row.names = F)
+        write.csv(full.annotation,paste0(outDir,species[i],'/',paste(current.accession[1:min(5,N.chromosomes)],collapse = '-'),'.csv'),row.names = F)
       }
     }
   print(i)

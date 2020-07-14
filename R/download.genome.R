@@ -33,7 +33,7 @@ download.genome <- function(species,maxOrganism,indextostart,accessionDir,outDir
     for(j in 1:min(c(maxOrganism,N.accession)))
     {
       current.accession <- accession[j]
-      current.accession <- strsplit(current.accession,split=':')[[1]]
+      current.accession <- strsplit(current.accession,split='-')[[1]]
       current.accession <- gsub(current.accession,pattern = ' ',replacement = '')
       N.chromosomes <- length(current.accession)
       dir.create(paste0(outDir,species[i],'/',current.accession[1]))
@@ -43,7 +43,7 @@ download.genome <- function(species,maxOrganism,indextostart,accessionDir,outDir
         write.FASTA(seq,paste0(outDir,species[i],'/',current.accession[1],'/',current.accession[k],'.fasta'))
       }
       seq <- readDNAStringSet(list.files(paste0(outDir,species[i],'/',current.accession[1]),full.names = T))
-      writeXStringSet(seq,paste0(outDir,gsub(species[i],pattern = ' ',replacement = '.'),'/',paste(current.accession[1:min(5,N.chromosomes)],collapse = ':'),'.fasta'))
+      writeXStringSet(seq,paste0(outDir,gsub(species[i],pattern = ' ',replacement = '.'),'/',paste(current.accession[1:min(5,N.chromosomes)],collapse = '-'),'.fasta'))
       unlink(paste0(outDir,species[i],'/',current.accession[1]),recursive = T,force = T)
       }
   print(i)
