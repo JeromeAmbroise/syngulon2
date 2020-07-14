@@ -8,9 +8,9 @@
 #' @export
 #'
 #' @examples
-
 analyse.annotation <- function(bacteria.table,collicin,annotationDir)
 {
+
   correspondance.organism.subgroup <- bacteria.table%>%group_by(Organism) %>% dplyr::count(Organism, SubGroup) %>% dplyr::slice(which.max(n)) %>% dplyr::rename(species=Organism)
 
   annotation.list <- list.files(annotationDir,full.names = T,recursive = T)
@@ -44,8 +44,8 @@ analyse.annotation <- function(bacteria.table,collicin,annotationDir)
   presence.summary.subgroup <- presence.summary.subgroup %>% rename_all(funs(gsub("_MEAN", "", .)))
 
 
-  toreturn <- list(presence.summary,presence.summary.subgroup)
-  names(toreturn) <- c('summmary at species level','summary at phylum level')
+  toreturn <- list(presence,presence.summary,presence.summary.subgroup)
+  names(toreturn) <- c('presence at species level','summmary at species level','summary at phylum level')
 
   return(toreturn)
 }
