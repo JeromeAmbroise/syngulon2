@@ -36,7 +36,7 @@ extract.1.gene.annotationbased <- function(selectedspecies='ecoli',selectedgene=
       genome <- readDNAStringSet(genomefiles[grep(currentgenome,genomefiles)])
       annotation <- read.csv(annotationfiles[grep(currentgenome,annotationfiles)],stringsAsFactors = F)
       annotation <- annotation[is.na(annotation$gene)==F,]
-      annotation1gene <- annotation[toupper(annotation$gene)==toupper(selectedgene),]
+      annotation1gene <- annotation[toupper(annotation$gene)==toupper(selectedgene),][1,]
       if(dim(annotation1gene)[1]>0)
       {
         start <- min(annotation1gene$start[1],annotation1gene$end[1])

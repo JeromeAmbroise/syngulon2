@@ -19,7 +19,7 @@ analyse.annotation <- function(bacteria.table,collicin,annotationDir)
 
   annotation.list <- lapply(annotation.list,function(x) read.csv(x,stringsAsFactors = F))
 
-  presence <- lapply(annotation.list, function(x) as.numeric(is.element(toupper(collicin$genename),toupper(unlist(lapply(strsplit(x$gene,split='_'), function(x) x[[1]]))))))
+  presence <- lapply(annotation.list, function(x) as.numeric(is.element(toupper(collicin$genename),toupper(x$gene))))
   presence <- matrix(unlist(presence),ncol=dim(collicin)[1],byrow = T)
   colnames(presence) <-  collicin$genename
   rownames(presence) <- annotation.list.name
