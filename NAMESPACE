@@ -2,6 +2,7 @@
 
 export(Gram)
 export(analyse.annotation)
+export(analyse.blast.table)
 export(compute.consensus.sequence)
 export(download.accession)
 export(download.annotation)

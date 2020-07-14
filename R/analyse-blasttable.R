@@ -1,33 +1,21 @@
-#' A function to summarize the presence of some genes based on annotation
+#' A function to summarize the presence of some genes based on blast table
 #'
 #' @param bacteria.table : the bacteria table
-#' @param annotationDir the directory where the annotation list can be found
-#' @param collicin the collicin data.frame
+#' @param blastresult the blast result data.frame
 #'
 #' @return
 #' @export
 #'
 #' @examples
-analyse.annotation <- function(bacteria.table,collicin,annotationDir)
+
+analyse.blast.table <- function(bacteria.table,blastresult)
 {
 
   correspondance.organism.subgroup <- bacteria.table%>%group_by(Organism) %>% dplyr::count(Organism, SubGroup) %>% dplyr::slice(which.max(n)) %>% dplyr::rename(species=Organism)
-
-  annotation.list <- list.files(annotationDir,full.names = T,recursive = T)
-  annotation.list.name <- gsub(annotation.list,pattern = '.csv',replacement = '')
-  annotation.list.name <- gsub(annotation.list.name,pattern = '03-annotation//',replacement = '')
-
-  annotation.list <- lapply(annotation.list,function(x) read.csv(x,stringsAsFactors = F))
-
-  presence <- lapply(annotation.list, function(x) as.numeric(is.element(toupper(collicin$genename),toupper(x$gene))))
-  presence <- matrix(unlist(presence),ncol=dim(collicin)[1],byrow = T)
-  colnames(presence) <-  collicin$genename
-  rownames(presence) <- annotation.list.name
-  presence <- presence[,sort.list(colnames(presence))]
-  presence <- data.frame(presence)
-  species <- unlist(lapply(strsplit(rownames(presence),split='/'),function(x) x[[1]]))
+  presence <- apply(blastresult,2,function(x) as.numeric(x!=''))
+  species <- unlist(lapply(strsplit(rownames(blastresult),split='/'),function(x) x[[2]]))
   presence <- data.frame(species,presence)
-
+  rownames(presence) <- rownames(blastresult)
   ##### summary at bacteria species
 
   presence.summary.n <- presence %>% group_by(species) %>% dplyr::summarise(n=n())
@@ -49,4 +37,3 @@ analyse.annotation <- function(bacteria.table,collicin,annotationDir)
 
   return(toreturn)
 }
-
