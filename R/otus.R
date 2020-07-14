@@ -17,10 +17,10 @@ otus <- function(species,collicin,geneDir,outDir)
     dir.create(paste0(outDir,species[i]))
     for (j in 1:length(collicin)) {
       myarg <- paste0('-fastx_uniques ',paste0(geneDir,species[i],"/",collicin[j],".fasta"),' -fastaout ',outDir,'derep1.fasta -sizeout')
-      system2(command='./usearch11.0.667_i86linux32',args=myarg)
+      system2(command='./usearch8.1.1861_i86linux32',args=myarg)
 
       myarg <- paste0('-sortbysize ',outDir,'derep1.fasta -fastaout ',outDir,'sorted.fasta -minsize 1')
-      system2(command='./usearch11.0.667_i86linux32',args=myarg)
+      system2(command='./usearch8.1.1861_i86linux32',args=myarg)
 
       myarg <- paste0('-cluster_otus ',outDir,'sorted.fasta -otus ',paste0(outDir,species[i],"/",collicin[j],".fasta"),' -otu_radius_pct 2.0')
       system2(command='./usearch8.1.1861_i86linux32',args=myarg)
