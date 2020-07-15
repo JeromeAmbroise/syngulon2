@@ -37,7 +37,7 @@ extract.1.gene.annotationbased <- function(selectedspecies='ecoli',selectedgene=
       annotation <- read.csv(annotationfiles[grep(currentgenome,annotationfiles)],stringsAsFactors = F)
       annotation <- annotation[is.na(annotation$gene)==F,]
       annotation1gene <- annotation[toupper(annotation$gene)==toupper(selectedgene),][1,]
-      if(dim(annotation1gene)[1]>0)
+      if(is.na(annotation1gene$gene)==F)
       {
         start <- min(annotation1gene$start[1],annotation1gene$end[1])
         end <- max(annotation1gene$start[1],annotation1gene$end[1])
@@ -51,5 +51,4 @@ extract.1.gene.annotationbased <- function(selectedspecies='ecoli',selectedgene=
     allseq <- readDNAStringSet(list.files(paste0(outDir,selectedspecies,'/',selectedgene),full.names=T))
     writeXStringSet(allseq,paste0(outDir,selectedspecies,'/',selectedgene,'.fasta'))
   }
-
 }
