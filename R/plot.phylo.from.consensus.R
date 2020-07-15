@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-function(consensusDir,bacteria.table)
+phylo.from.consensus <- function(consensusDir,bacteria.table)
 {
   library(dplyr)
   library(Biostrings)

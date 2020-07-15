@@ -51,5 +51,4 @@ extract.1.gene.annotationbased <- function(selectedspecies='ecoli',selectedgene=
     allseq <- readDNAStringSet(list.files(paste0(outDir,selectedspecies,'/',selectedgene),full.names=T))
     writeXStringSet(allseq,paste0(outDir,selectedspecies,'/',selectedgene,'.fasta'))
   }
-
 }
