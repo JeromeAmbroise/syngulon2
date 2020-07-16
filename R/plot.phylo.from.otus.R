@@ -40,7 +40,7 @@ phylo.from.otus <- function(otusDir,bacteria.table)
 
       nseqeuences <- length(sequences)
 
-      pdf(paste0('99-results/phylogenetic.consensus.',genename[i],'.pdf'),width=10,height = 10*log10(nseqeuences))
+      pdf(paste0('99-results/phylogenetic.otus.',genename[i],'.pdf'),width=10,height = 10*log10(nseqeuences))
       p <- ggtree(mytree1)
       p <- p  + geom_tiplab(offset=0) + xlim(NA, 150) +geom_treescale(0.05,-2.5,width=10,fontsize = 2,linesize = 0.5)
       plot(p)
