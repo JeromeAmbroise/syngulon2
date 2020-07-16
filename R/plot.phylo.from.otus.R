@@ -10,7 +10,7 @@
 phylo.from.otus <- function(otusDir,bacteria.table)
 {
   correspondance.organism.subgroup <- bacteria.table%>%group_by(Organism) %>% dplyr::count(Organism, SubGroup) %>% dplyr::slice(which.max(n)) %>% dplyr::rename(species=Organism)
-
+  filelist <- list.files(otusDir,full.names = T)
   filelist <- filelist[grep(pattern = '.fasta',x =filelist )]
 
   genename <- gsub(basename(filelist),pattern = '.fasta',replacement = '')
