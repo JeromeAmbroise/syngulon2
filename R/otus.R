@@ -19,11 +19,7 @@ otus <- function(species,collicin,geneDir,outDir)
     dir.create(paste0(outDir,species[i]))
     for (j in 1:length(collicin)) {
       myarg <- paste0('-derep_fulllength ',paste0(geneDir,species[i],"/",collicin[j],".fasta"),' -fastaout ',outDir,'derep1.fasta -sizeout')
-<<<<<<< HEAD
-      system2(command='./usearch8.1.1861_i86linux32',args=myarg)
-=======
       system2(command='./usearch8.1.1861_i86linux32',args=myarg,stdout = NULL,stderr = NULL)
->>>>>>> 7655208db9deaf8316aa2f0db24fb299cfee4141
 
       myarg <- paste0('-sortbysize ',outDir,'derep1.fasta -fastaout ',outDir,'sorted.fasta -minsize 1')
       system2(command='./usearch8.1.1861_i86linux32',args=myarg,stdout = NULL,stderr = NULL)
