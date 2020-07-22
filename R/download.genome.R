@@ -39,8 +39,11 @@ download.genome <- function(species,maxOrganism,indextostart,accessionDir,outDir
       dir.create(paste0(outDir,species[i],'/',current.accession[1]))
       for(k in 1:min(5,N.chromosomes))
       {
-        seq <- read.GenBank(current.accession[k])
-        write.FASTA(seq,paste0(outDir,species[i],'/',current.accession[1],'/',current.accession[k],'.fasta'))
+        seq <- try(read.GenBank(current.accession[k]))
+        if (class(seq)=="DNAbin") {
+          write.FASTA(seq,paste0(outDir,species[i],'/',current.accession[1],'/',current.accession[k],'.fasta'))
+        }
+
       }
       seq <- readDNAStringSet(list.files(paste0(outDir,species[i],'/',current.accession[1]),full.names = T))
       writeXStringSet(seq,paste0(outDir,gsub(species[i],pattern = ' ',replacement = '.'),'/',paste(current.accession[1:min(5,N.chromosomes)],collapse = '-'),'.fasta'))
