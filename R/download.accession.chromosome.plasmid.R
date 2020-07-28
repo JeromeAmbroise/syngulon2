@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-download.accession <- function(species,bacteria.table,outDir)
+download.accession.chromosome.plasmid <- function(species,bacteria.table,outDir)
 {
   library(reutils)
   library(ape)
@@ -16,7 +16,6 @@ download.accession <- function(species,bacteria.table,outDir)
   library(Biostrings)
   library(dplyr)
   library(WriteXLS)
-  bacteria.table$Replicons <- unlist(lapply(strsplit(bacteria.table$Replicons,split='plasmid'),function(x) x[1]))
   n.species <- length(species)
   for(i in 1:n.species)
   {
