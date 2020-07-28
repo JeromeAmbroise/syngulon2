@@ -1,13 +1,12 @@
-#' Title
+#' Fonction qui retire les underscore dans la colonne gene des annotation
 #'
-#' @param species
-#' @param collicin
-#' @param annotationDir
+#' @param species espece consernée
+#' @param collicin les gènes consernés
+#' @param annotationDir la localisation des fichiers d'annotations
 #'
 #' @return
 #' @export
-#'
-#' @examples
+
 amelioration.annotation <- function(species,collicin,annotationDir){
   library(dplyr)
 
@@ -23,16 +22,19 @@ amelioration.annotation <- function(species,collicin,annotationDir){
     write.csv(currentfile,annotationfiles[i])
     print(i)
   }
-  for (i in 1:length(collicin)) {
-    product <-c()
-    for (j in 1:length(annotationfiles)) {
-      currentfile <- read.csv(annotationfiles[j])
-      currentfile$gene <- toupper(currentfile$gene)
-      currentfile <- currentfile%>%filter(gene==collicin[i])
-      product <- c(product,currentfile$product)
-    }
-    print(i)
-    write.csv(table(product),paste0("99-results/","table.",collicin[i],".csv"))
-  }
+
+
+  ####### un debut pour extraire les produits des genes et les analyser
+  #for (i in 1:length(collicin)) {
+  #product <-c()
+  #for (j in 1:length(annotationfiles)) {
+  # currentfile <- read.csv(annotationfiles[j])
+  #currentfile$gene <- toupper(currentfile$gene)
+  #currentfile <- currentfile%>%filter(gene==collicin[i])
+  #product <- c(product,currentfile$product)
+  #}
+  #print(i)
+  #write.csv(table(product),paste0("99-results/","table.",collicin[i],".csv"))
+  #}
 
 }

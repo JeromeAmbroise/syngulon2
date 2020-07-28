@@ -1,4 +1,4 @@
-screenBlast3 <- function (reference, querry,min.pc.ident,min.pc.length,dir.out,geneDir)
+screenBlast3 <- function (reference, querry,min.pc.ident,min.pc.length,geneDir)
 {
   library(Biostrings)
   library(GenomicRanges)

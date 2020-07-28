@@ -1,10 +1,10 @@
-#' Title
+#' Extraire les séquences des gènes de collicin dans le génome des especes grâce aux annotations
 #'
-#' @param species
-#' @param collicin
-#' @param annotationDir
-#' @param genomeDir
-#' @param outDir
+#' @param species les espèces consernées
+#' @param collicin les gènes consernés
+#' @param annotationDir la localisation des fichiers d'annotations
+#' @param genomeDir la localisation des fichiers des génomes
+#' @param outDir l'emplacement pour stocker les différents gènes
 #' @return
 #' @export
 
