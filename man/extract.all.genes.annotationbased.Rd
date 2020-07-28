@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract.all.genes.annotionbased.R
 \name{extract.all.genes.annotationbased}
 \alias{extract.all.genes.annotationbased}
-\title{Title}
+\title{Extraire les séquences des gènes de collicin dans le génome des especes grâce aux annotations}
 \usage{
 extract.all.genes.annotationbased(
   species,
@@ -12,9 +12,20 @@ extract.all.genes.annotationbased(
   outDir
 )
 }
+\arguments{
+\item{species}{les espèces consernées}
+
+\item{collicin}{les gènes consernés}
+
+\item{annotationDir}{la localisation des fichiers d'annotations}
+
+\item{genomeDir}{la localisation des fichiers des génomes}
+
+\item{outDir}{l'emplacement pour stocker les différents gènes}
+}
 \value{
 
 }
 \description{
-Title
+Extraire les séquences des gènes de collicin dans le génome des especes grâce aux annotations
 }

@@ -2,16 +2,20 @@
 % Please edit documentation in R/amelioration-annotation.R
 \name{amelioration.annotation}
 \alias{amelioration.annotation}
-\title{Title}
+\title{Fonction qui retire les underscore dans la colonne gene des annotation}
 \usage{
 amelioration.annotation(species, collicin, annotationDir)
 }
 \arguments{
-\item{annotationDir}{}
+\item{species}{espece consernée}
+
+\item{collicin}{les gènes consernés}
+
+\item{annotationDir}{la localisation des fichiers d'annotations}
 }
 \value{
 
 }
 \description{
-Title
+Fonction qui retire les underscore dans la colonne gene des annotation
 }

@@ -4,7 +4,7 @@
 \alias{screenBlast}
 \title{Screen a sequence using Blast}
 \usage{
-screenBlast(reference, querry, min.pc.ident, min.pc.length, dir.out)
+screenBlast(reference, querry, min.pc.ident, min.pc.length)
 }
 \arguments{
 \item{reference}{the reference sequence that you want to screen. Fasta file in one or severa sequences}

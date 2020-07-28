@@ -1,4 +1,18 @@
-screenBlast3 <- function (reference, querry,min.pc.ident,min.pc.length,geneDir)
+#' Screen a sequence using Blast
+#'
+#' You provide a reference and a querry and the function compute the percentage of the reference which is covered by the querry
+#' @param reference the reference sequence that you want to screen. Fasta file in one or severa sequences
+#' @param querry the querry sequence. Fasta file in one or severa sequences
+#' @param min.pc.ident
+#' @param min.pc.length
+#' @param geneDir
+#'
+#' @return numeric value of the percentage of the reference sequence which is covered by the querry and write dans le geneDir
+#' la sequences des gènes similaires
+#' @export
+#'
+#' @examples
+screenBlastkey <- function (reference, querry,min.pc.ident,min.pc.length,geneDir)
 {
   library(Biostrings)
   library(GenomicRanges)

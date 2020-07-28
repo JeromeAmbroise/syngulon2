@@ -1,11 +1,10 @@
-#' Title
+#' ajoute si le sous-groupe fait partie des bactéries gram + ou -
 #'
 #' @param presence.summary.subgroup
 #'
 #' @return
 #' @export
-#'
-#' @examples
+
 Gram <- function(presence.summary.subgroup)
   {
   library(taxize)
