@@ -22,7 +22,7 @@ screenBlastkey <- function (reference, querry,min.pc.ident,min.pc.length,geneDir
   myarg <- paste0("-in ", reference, " -out temp/dbblast/db -dbtype nucl")
   system2(command = "makeblastdb", args = myarg, stdout = F)
 
-  myarg <- paste0("-query ", querry, " -db temp/dbblast/db -out temp/blast.txt -num_threads 8 -num_alignments 1000 -outfmt \"7 sacc bitscore pident length slen qstart qend\"")
+  myarg <- paste0("-query ", querry, " -db temp/dbblast/db -out temp/blast.txt -num_threads 8 -num_alignments 1000 -outfmt \"7 qframe sacc bitscore pident length slen qstart qend sstart send\"")
   system2(command = "blastn", args = myarg)
   blast <- try(read.table("temp/blast.txt", comment.char = "#"), silent = T)
 
@@ -33,7 +33,7 @@ screenBlastkey <- function (reference, querry,min.pc.ident,min.pc.length,geneDir
     gene.levels <- levels(factor(genes))
 
 
-    colnames(blast) <- c("subj.access", "bitscore", "pident", "align.length", "subj.len","qstart","qend")
+    colnames(blast) <- c("qframe","subj.access", "bitscore", "pident", "align.length", "subj.len","qstart","qend","sstart","send")
     genes <- blast$subj.access
     blast <- data.frame(genes,blast)
     blast$pc.length <- round(100*(blast$align.length/blast$subj.len))
@@ -59,7 +59,10 @@ screenBlastkey <- function (reference, querry,min.pc.ident,min.pc.length,geneDir
         }
 
         geneclone = DNAStringSet(querry[[1]][blast.selected$qstart:blast.selected$qend])
-        names(geneclone)= paste0(names(querry),":",gene.levels[i])
+        if (blast.selected$sstart>blast.selected$send) {
+          geneclone = reverseComplement(geneclone)
+        }
+        names(geneclone)= paste0(species,":",gene.levels[i],":",names(querry))
         writeXStringSet(geneclone,paste0(geneDir,species,"/",names(querry),"/",gene.levels[i],".fasta"))
         toreturn1 <- unique(unlist(lapply(strsplit(blast.selected$subj.access,split=':'),function(x) x[[1]])))
         toreturn1 <- paste(toreturn1[1:min(3,length(toreturn1))],collapse='|')
